@@ -1,7 +1,12 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
-import { sanitizeSearch, type ApprovalPolicy, type QueueOrder, type RequestStatus } from "./request-rules";
+import {
+  sanitizeSearch,
+  type ApprovalPolicy,
+  type QueueOrder,
+  type RequestStatus,
+} from "./request-rules";
 
 // All admin reads go through the browser client; row-level security only returns rows to admins.
 
@@ -44,18 +49,33 @@ export const settingsQuery = queryOptions({
   },
 });
 
-export const statusCountsQuery = queryOptions({
-  queryKey: ["admin", "counts"],
-  queryFn: async () => {
-    const { data, error } = await supabase.rpc("admin_status_counts");
-    if (error) throw new Error("counts_failed");
-    const counts: Partial<Record<RequestStatus, number>> = {};
-    for (const row of data ?? []) counts[row.status as RequestStatus] = Number(row.total);
-    return counts;
-  },
-});
+/** "demo" = synthetic seed records only, "real" = public form submissions only. */
+export type RecordSource = "all" | "real" | "demo";
 
-export type QueueFilters = { search: string; status: RequestStatus | "all"; order: QueueOrder };
+export function statusCountsQuery(source: RecordSource) {
+  return queryOptions({
+    queryKey: ["admin", "counts", source],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("admin_status_counts_by_source");
+      if (error) throw new Error("counts_failed");
+      const counts: Partial<Record<RequestStatus, number>> = {};
+      for (const row of data ?? []) {
+        if (source === "demo" && !row.is_test_data) continue;
+        if (source === "real" && row.is_test_data) continue;
+        const s = row.status as RequestStatus;
+        counts[s] = (counts[s] ?? 0) + Number(row.total);
+      }
+      return counts;
+    },
+  });
+}
+
+export type QueueFilters = {
+  search: string;
+  status: RequestStatus | "all";
+  order: QueueOrder;
+  source: RecordSource;
+};
 
 export function requestListQuery(filters: QueueFilters) {
   return queryOptions({
@@ -64,10 +84,13 @@ export function requestListQuery(filters: QueueFilters) {
       // List rows show only what reviewers need; phone and notes stay in the detail view.
       let q = supabase
         .from("requests")
-        .select("id, reference_code, full_name, city, family_members, status, is_test_data, created_at")
+        .select(
+          "id, reference_code, full_name, city, family_members, status, is_test_data, created_at",
+        )
         .order("created_at", { ascending: filters.order === "oldest_first" })
         .limit(200);
       if (filters.status !== "all") q = q.eq("status", filters.status);
+      if (filters.source !== "all") q = q.eq("is_test_data", filters.source === "demo");
       const s = sanitizeSearch(filters.search);
       if (s) q = q.or(`reference_code.ilike.*${s}*,full_name.ilike.*${s}*,city.ilike.*${s}*`);
       const { data, error } = await q;
@@ -83,7 +106,10 @@ export function requestDetailQuery(id: string) {
     queryFn: async () => {
       const [req, approvals, notes, audit] = await Promise.all([
         supabase.from("requests").select("*").eq("id", id).maybeSingle(),
-        supabase.from("request_approvals").select("admin_id, admin_email, created_at").eq("request_id", id),
+        supabase
+          .from("request_approvals")
+          .select("admin_id, admin_email, created_at")
+          .eq("request_id", id),
         supabase
           .from("request_notes")
           .select("id, author_email, body, created_at")
@@ -95,7 +121,8 @@ export function requestDetailQuery(id: string) {
           .eq("request_id", id)
           .order("created_at", { ascending: false }),
       ]);
-      if (req.error || approvals.error || notes.error || audit.error) throw new Error("detail_failed");
+      if (req.error || approvals.error || notes.error || audit.error)
+        throw new Error("detail_failed");
       return { request: req.data, approvals: approvals.data, notes: notes.data, audit: audit.data };
     },
   });
@@ -106,7 +133,9 @@ export const auditLogQuery = queryOptions({
   queryFn: async () => {
     const { data, error } = await supabase
       .from("audit_log")
-      .select("id, request_id, actor_email, action, from_status, to_status, details, created_at, requests(reference_code)")
+      .select(
+        "id, request_id, actor_email, action, from_status, to_status, details, created_at, requests(reference_code)",
+      )
       .order("created_at", { ascending: false })
       .limit(300);
     if (error) throw new Error("audit_failed");

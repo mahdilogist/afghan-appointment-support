@@ -18,7 +18,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Afghan Free Appointment — free volunteer help" },
       {
         property: "og:description",
-        content: "Submit one request per family member. Volunteers review every request by hand. Always free.",
+        content:
+          "Submit one request per family member. Volunteers review every request by hand. Always free.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -107,7 +108,10 @@ function Index() {
         <h2 className="text-2xl font-semibold">{t("howTitle")}</h2>
         <ol className="mt-6 grid gap-4 md:grid-cols-3">
           {steps.map((s, i) => (
-            <li key={s.title} className="relative rounded-2xl border border-border bg-card p-6 shadow-soft">
+            <li
+              key={s.title}
+              className="relative rounded-2xl border border-border bg-card p-6 shadow-soft"
+            >
               <span className="font-display text-3xl font-semibold text-primary/70">
                 {new Intl.NumberFormat(dir === "rtl" ? "fa-AF" : "en").format(i + 1)}
               </span>

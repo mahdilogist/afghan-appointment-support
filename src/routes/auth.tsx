@@ -14,7 +14,10 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "ورود داوطلبان · Volunteer sign-in — Afghan Free Appointment" },
-      { name: "description", content: "Sign-in for volunteer administrators only. There is no public sign-up." },
+      {
+        name: "description",
+        content: "Sign-in for volunteer administrators only. There is no public sign-up.",
+      },
       { name: "robots", content: "noindex" },
       { property: "og:title", content: "Volunteer sign-in — Afghan Free Appointment" },
       { property: "og:description", content: "Sign-in for volunteer administrators only." },
@@ -125,7 +128,11 @@ function AuthPage() {
               </p>
             )}
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={pending}>
-              {mode === "signin" ? (pending ? t("authSigningIn") : t("authSignIn")) : t("authSendReset")}
+              {mode === "signin"
+                ? pending
+                  ? t("authSigningIn")
+                  : t("authSignIn")
+                : t("authSendReset")}
             </Button>
           </form>
           <button

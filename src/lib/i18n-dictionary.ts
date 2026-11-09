@@ -43,9 +43,11 @@ const en = {
   howStep1Title: "One request per person",
   howStep1Body: "Each family member needs their own request. Submit them one at a time.",
   howStep2Title: "A volunteer reviews it",
-  howStep2Body: "Your request starts as Pending Review. A volunteer checks it and may ask a question.",
+  howStep2Body:
+    "Your request starts as Pending Review. A volunteer checks it and may ask a question.",
   howStep3Title: "We contact you",
-  howStep3Body: "If we can help, a volunteer will call the phone number you gave. Keep your reference number.",
+  howStep3Body:
+    "If we can help, a volunteer will call the phone number you gave. Keep your reference number.",
 
   formTitle: "Request help for one person",
   formIntro: "Fill in this form for one family member only.",
@@ -58,7 +60,8 @@ const en = {
   fieldCity: "City",
   fieldCityHint: "Where the applicant currently lives.",
   fieldFamily: "How many family members need separate requests?",
-  fieldFamilyHint: "Including this person. This helps volunteers plan — it does not create extra requests.",
+  fieldFamilyHint:
+    "Including this person. This helps volunteers plan — it does not create extra requests.",
   fieldNote: "Short note (optional)",
   fieldNoteHint: "Anything a volunteer should know. Do not include ID or passport numbers.",
   privacyNoticeTitle: "Privacy notice",
@@ -123,7 +126,8 @@ const en = {
   resetNew: "New password",
   resetSave: "Save new password",
   resetDone: "Password updated. You can now continue.",
-  resetInvalid: "This reset link is invalid or has expired. Request a new one from the sign-in page.",
+  resetInvalid:
+    "This reset link is invalid or has expired. Request a new one from the sign-in page.",
   resetTooShort: "Use at least 10 characters.",
 
   adminDashboard: "Requests",
@@ -139,10 +143,14 @@ const en = {
   noAccessNotAllowed:
     "This email is not on the volunteer allowlist, or the allowlist has not been configured yet. Ask the project owner.",
   setupTitle: "Setting up the two volunteer administrators",
-  setupStep1: "The project owner adds a secret named ADMIN_EMAILS in project settings, containing the two volunteer emails separated by a comma.",
-  setupStep2: "The owner creates each volunteer account in Cloud → Users → Add user (public sign-up is turned off).",
-  setupStep3: "Each volunteer signs in here and presses “Activate admin access”. The server checks the allowlist and grants the admin role.",
-  setupStep4: "To remove a volunteer, delete their account in Cloud → Users. Their admin role is removed with it.",
+  setupStep1:
+    "The project owner adds a secret named ADMIN_EMAILS in project settings, containing the two volunteer emails separated by a comma.",
+  setupStep2:
+    "The owner creates each volunteer account in Cloud → Users → Add user (public sign-up is turned off).",
+  setupStep3:
+    "Each volunteer signs in here and presses “Activate admin access”. The server checks the allowlist and grants the admin role.",
+  setupStep4:
+    "To remove a volunteer, delete their account in Cloud → Users. Their admin role is removed with it.",
 
   countsTotal: "All requests",
   queueTitle: "Request queue",
@@ -159,7 +167,11 @@ const en = {
   colStatus: "Status",
   colSubmitted: "Submitted",
   queueEmpty: "No requests match these filters.",
-  testDataTag: "Test data",
+  testDataTag: "Synthetic demo",
+  filterSource: "Records",
+  sourceAll: "Demo + form submissions",
+  sourceReal: "Form submissions only",
+  sourceDemo: "Synthetic demo only",
   open: "Open",
 
   detailBack: "Back to queue",
@@ -305,9 +317,11 @@ const fa: Dictionary = {
   howStep1Title: "برای هر نفر یک درخواست",
   howStep1Body: "هر عضو خانواده درخواست جداگانه لازم دارد. آن‌ها را یکی‌یکی ثبت کنید.",
   howStep2Title: "بررسی توسط داوطلب",
-  howStep2Body: "درخواست شما در وضعیت «در انتظار بررسی» قرار می‌گیرد. داوطلب آن را بررسی می‌کند و شاید سؤالی بپرسد.",
+  howStep2Body:
+    "درخواست شما در وضعیت «در انتظار بررسی» قرار می‌گیرد. داوطلب آن را بررسی می‌کند و شاید سؤالی بپرسد.",
   howStep3Title: "با شما تماس می‌گیریم",
-  howStep3Body: "اگر بتوانیم کمک کنیم، داوطلب با شمارهٔ شما تماس می‌گیرد. شمارهٔ پیگیری خود را نگه دارید.",
+  howStep3Body:
+    "اگر بتوانیم کمک کنیم، داوطلب با شمارهٔ شما تماس می‌گیرد. شمارهٔ پیگیری خود را نگه دارید.",
 
   formTitle: "درخواست کمک برای یک نفر",
   formIntro: "این فورم را فقط برای یک عضو خانواده پر کنید.",
@@ -334,7 +348,8 @@ const fa: Dictionary = {
   successTitle: "درخواست شما دریافت شد",
   successBody: "وضعیت آن اکنون «در انتظار بررسی» است. یک داوطلب آن را شخصاً بررسی می‌کند.",
   successRefLabel: "شمارهٔ پیگیری شما",
-  successRefHint: "این شماره را یادداشت کنید. داوطلبان ممکن است آن را بپرسند. ما هرگز از شما پول نمی‌خواهیم.",
+  successRefHint:
+    "این شماره را یادداشت کنید. داوطلبان ممکن است آن را بپرسند. ما هرگز از شما پول نمی‌خواهیم.",
   successAnother: "ثبت درخواست برای عضو دیگر خانواده",
   successHome: "بازگشت به صفحهٔ اصلی",
 
@@ -401,10 +416,14 @@ const fa: Dictionary = {
   noAccessNotAllowed:
     "این ایمیل در فهرست مجاز داوطلبان نیست یا فهرست هنوز تنظیم نشده است. از مسئول پروژه بپرسید.",
   setupTitle: "تنظیم دو مدیر داوطلب",
-  setupStep1: "مسئول پروژه در تنظیمات پروژه یک رمز (Secret) به نام ADMIN_EMAILS می‌سازد که ایمیل دو داوطلب را با ویرگول جدا می‌کند.",
-  setupStep2: "مسئول پروژه حساب هر داوطلب را در Cloud ← Users ← Add user می‌سازد (ثبت‌نام عمومی خاموش است).",
-  setupStep3: "هر داوطلب این‌جا وارد می‌شود و «فعال‌سازی دسترسی مدیر» را می‌زند. سرور فهرست مجاز را بررسی کرده و نقش مدیر را می‌دهد.",
-  setupStep4: "برای برداشتن یک داوطلب، حساب او را در Cloud ← Users حذف کنید. نقش مدیر هم همراه آن حذف می‌شود.",
+  setupStep1:
+    "مسئول پروژه در تنظیمات پروژه یک رمز (Secret) به نام ADMIN_EMAILS می‌سازد که ایمیل دو داوطلب را با ویرگول جدا می‌کند.",
+  setupStep2:
+    "مسئول پروژه حساب هر داوطلب را در Cloud ← Users ← Add user می‌سازد (ثبت‌نام عمومی خاموش است).",
+  setupStep3:
+    "هر داوطلب این‌جا وارد می‌شود و «فعال‌سازی دسترسی مدیر» را می‌زند. سرور فهرست مجاز را بررسی کرده و نقش مدیر را می‌دهد.",
+  setupStep4:
+    "برای برداشتن یک داوطلب، حساب او را در Cloud ← Users حذف کنید. نقش مدیر هم همراه آن حذف می‌شود.",
 
   countsTotal: "همهٔ درخواست‌ها",
   queueTitle: "صف درخواست‌ها",
@@ -421,7 +440,11 @@ const fa: Dictionary = {
   colStatus: "وضعیت",
   colSubmitted: "تاریخ ثبت",
   queueEmpty: "هیچ درخواستی با این فیلترها پیدا نشد.",
-  testDataTag: "آزمایشی",
+  testDataTag: "نمونهٔ ساختگی",
+  filterSource: "سوابق",
+  sourceAll: "نمونه‌ها + درخواست‌های فرم",
+  sourceReal: "فقط درخواست‌های فرم",
+  sourceDemo: "فقط نمونه‌های ساختگی",
   open: "باز کردن",
 
   detailBack: "بازگشت به صف",
@@ -505,7 +528,8 @@ const fa: Dictionary = {
 
   errNotAuthorized: "شما اجازهٔ این کار را ندارید.",
   errPolicyUnset: "اول در تنظیمات یک سیاست تأیید انتخاب کنید.",
-  errInvalidTransition: "این اقدام برای وضعیت فعلی مجاز نیست. صفحه را تازه کنید و دوباره کوشش کنید.",
+  errInvalidTransition:
+    "این اقدام برای وضعیت فعلی مجاز نیست. صفحه را تازه کنید و دوباره کوشش کنید.",
   errAlreadyApproved: "شما قبلاً این درخواست را تأیید کرده‌اید. داوطلب دوم باید آن را تأیید کند.",
   errNotFound: "این درخواست پیدا نشد.",
 

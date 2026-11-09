@@ -74,7 +74,10 @@ export const claimAdminAccess = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error: insertError } = await supabaseAdmin
       .from("user_roles")
-      .upsert({ user_id: user.id, role: "admin" }, { onConflict: "user_id,role", ignoreDuplicates: true });
+      .upsert(
+        { user_id: user.id, role: "admin" },
+        { onConflict: "user_id,role", ignoreDuplicates: true },
+      );
     if (insertError) {
       console.error("admin role grant failed", insertError.code);
       throw new Error("grant_failed");

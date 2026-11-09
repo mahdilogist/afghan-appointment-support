@@ -19,7 +19,10 @@ export const Route = createFileRoute("/_authenticated/admin")({
       { name: "description", content: "Protected review dashboard for volunteer administrators." },
       { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "Volunteer dashboard — Afghan Free Appointment" },
-      { property: "og:description", content: "Protected review dashboard for volunteer administrators." },
+      {
+        property: "og:description",
+        content: "Protected review dashboard for volunteer administrators.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -39,29 +42,46 @@ function AdminLayout() {
     navigate({ to: "/auth" });
   }
 
-  const navItem = "inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm text-foreground/75 hover:bg-muted hover:text-foreground";
+  const navItem =
+    "inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm text-foreground/75 hover:bg-muted hover:text-foreground";
 
   return (
     <div className="min-h-screen bg-muted/40">
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <Link to="/admin" className="flex items-center gap-2.5">
-            <span aria-hidden="true" className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">
+            <span
+              aria-hidden="true"
+              className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground"
+            >
               <ShieldCheck className="size-5" />
             </span>
             <span className="font-display font-semibold">{t("appName")}</span>
           </Link>
           {me.data?.isAdmin && (
             <nav aria-label="Admin" className="flex flex-wrap items-center gap-1">
-              <Link to="/admin" activeOptions={{ exact: true }} className={navItem} activeProps={{ className: "bg-primary-soft text-primary font-medium" }}>
+              <Link
+                to="/admin"
+                activeOptions={{ exact: true }}
+                className={navItem}
+                activeProps={{ className: "bg-primary-soft text-primary font-medium" }}
+              >
                 <ClipboardList className="size-4" aria-hidden="true" />
                 {t("adminDashboard")}
               </Link>
-              <Link to="/admin/audit" className={navItem} activeProps={{ className: "bg-primary-soft text-primary font-medium" }}>
+              <Link
+                to="/admin/audit"
+                className={navItem}
+                activeProps={{ className: "bg-primary-soft text-primary font-medium" }}
+              >
                 <History className="size-4" aria-hidden="true" />
                 {t("adminAudit")}
               </Link>
-              <Link to="/admin/settings" className={navItem} activeProps={{ className: "bg-primary-soft text-primary font-medium" }}>
+              <Link
+                to="/admin/settings"
+                className={navItem}
+                activeProps={{ className: "bg-primary-soft text-primary font-medium" }}
+              >
                 <Settings2 className="size-4" aria-hidden="true" />
                 {t("adminSettings")}
               </Link>
@@ -85,7 +105,9 @@ function AdminLayout() {
         {me.isPending ? (
           <p className="text-muted-foreground">{t("adminLoading")}</p>
         ) : me.isError ? (
-          <p role="alert" className="text-destructive">{t("errGeneric")}</p>
+          <p role="alert" className="text-destructive">
+            {t("errGeneric")}
+          </p>
         ) : me.data.isAdmin ? (
           <Outlet />
         ) : (
@@ -127,7 +149,10 @@ function NoAccess() {
           {t("noAccessActivate")}
         </Button>
         {denied && (
-          <p role="alert" className="mt-4 rounded-xl bg-warning-soft p-3 text-sm text-warning-foreground">
+          <p
+            role="alert"
+            className="mt-4 rounded-xl bg-warning-soft p-3 text-sm text-warning-foreground"
+          >
             {t("noAccessNotAllowed")}
           </p>
         )}

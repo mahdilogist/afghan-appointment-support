@@ -83,12 +83,18 @@ export function statusAfterApproval(
 
 /** Strips characters that would break a PostgREST `or=` filter. */
 export function sanitizeSearch(input: string): string {
-  return input.replace(/[,()*%\\:"']/g, " ").trim().slice(0, 80);
+  return input
+    .replace(/[,()*%\\:"']/g, " ")
+    .trim()
+    .slice(0, 80);
 }
 
 /** Maps database error codes to translated messages without leaking raw error text. */
 export function errorKeyFor(error: unknown): DictKey {
-  const msg = error && typeof error === "object" && "message" in error ? String((error as { message: unknown }).message) : "";
+  const msg =
+    error && typeof error === "object" && "message" in error
+      ? String((error as { message: unknown }).message)
+      : "";
   if (msg.includes("not_authorized")) return "errNotAuthorized";
   if (msg.includes("approval_policy_not_set")) return "errPolicyUnset";
   if (msg.includes("invalid_transition")) return "errInvalidTransition";

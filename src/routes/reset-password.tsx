@@ -12,7 +12,10 @@ export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
       { title: "Reset password — Afghan Free Appointment" },
-      { name: "description", content: "Choose a new password for a volunteer administrator account." },
+      {
+        name: "description",
+        content: "Choose a new password for a volunteer administrator account.",
+      },
       { name: "robots", content: "noindex" },
       { property: "og:title", content: "Reset password — Afghan Free Appointment" },
       { property: "og:description", content: "Choose a new volunteer password." },
@@ -62,7 +65,9 @@ function ResetPasswordPage() {
       <div className="mx-auto max-w-md px-4 py-14">
         <div className="rounded-3xl border border-border bg-card p-7 shadow-soft">
           <h1 className="text-2xl font-semibold">{t("resetTitle")}</h1>
-          {ready === false && <p className="mt-4 text-sm text-muted-foreground">{t("resetInvalid")}</p>}
+          {ready === false && (
+            <p className="mt-4 text-sm text-muted-foreground">{t("resetInvalid")}</p>
+          )}
           {done ? (
             <div className="mt-4 space-y-4">
               <p role="status" className="rounded-xl bg-primary-soft p-3 text-sm text-primary">
@@ -91,7 +96,13 @@ function ResetPasswordPage() {
                     {error}
                   </p>
                 )}
-                <Button type="submit" variant="hero" size="lg" className="w-full" disabled={pending}>
+                <Button
+                  type="submit"
+                  variant="hero"
+                  size="lg"
+                  className="w-full"
+                  disabled={pending}
+                >
                   {t("resetSave")}
                 </Button>
               </form>

@@ -49,7 +49,9 @@ export function SiteHeader() {
           </span>
           <span className="flex flex-col leading-tight">
             <span className="font-display text-base font-semibold">{t("appName")}</span>
-            <span className="hidden text-xs text-muted-foreground sm:block">{t("heroEyebrow")}</span>
+            <span className="hidden text-xs text-muted-foreground sm:block">
+              {t("heroEyebrow")}
+            </span>
           </span>
         </Link>
         <nav aria-label="Main" className="flex items-center gap-1 text-sm">

@@ -22,7 +22,9 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">صفحه پیدا نشد · Page not found</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">
+          صفحه پیدا نشد · Page not found
+        </h2>
         <p className="mt-2 text-sm text-muted-foreground">
           صفحه‌ای که دنبال آن هستید وجود ندارد. · The page you are looking for does not exist.
         </p>
@@ -92,7 +94,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Afghan Free Appointment" },
       {
         property: "og:description",
-        content: "Free, volunteer-run help for Afghan families requesting identity-verification appointments.",
+        content:
+          "Free, volunteer-run help for Afghan families requesting identity-verification appointments.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

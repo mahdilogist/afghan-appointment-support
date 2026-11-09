@@ -20,10 +20,14 @@ export const Route = createFileRoute("/request")({
       { title: "ثبت درخواست · Submit a request — Afghan Free Appointment" },
       {
         name: "description",
-        content: "Request free volunteer help for one family member. Minimal details only — no ID numbers or documents.",
+        content:
+          "Request free volunteer help for one family member. Minimal details only — no ID numbers or documents.",
       },
       { property: "og:title", content: "Submit a request — Afghan Free Appointment" },
-      { property: "og:description", content: "One request per family member. Free and reviewed by volunteers." },
+      {
+        property: "og:description",
+        content: "One request per family member. Free and reviewed by volunteers.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -44,7 +48,8 @@ function RequestPage() {
   const [pending, setPending] = useState(false);
   const [reference, setReference] = useState<string | null>(null);
 
-  const set = (name: keyof typeof EMPTY) => (value: string) => setValues((v) => ({ ...v, [name]: value }));
+  const set = (name: keyof typeof EMPTY) => (value: string) =>
+    setValues((v) => ({ ...v, [name]: value }));
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -101,13 +106,33 @@ function RequestPage() {
           <p className="text-sm font-medium">{t("formOneMember")}</p>
         </div>
 
-        <form onSubmit={onSubmit} noValidate className="mt-8 space-y-6 rounded-3xl border border-border bg-card p-6 shadow-soft md:p-8">
-          <Field name="fullName" label={t("fieldName")} hint={t("fieldNameHint")} error={errors.fullName}>
+        <form
+          onSubmit={onSubmit}
+          noValidate
+          className="mt-8 space-y-6 rounded-3xl border border-border bg-card p-6 shadow-soft md:p-8"
+        >
+          <Field
+            name="fullName"
+            label={t("fieldName")}
+            hint={t("fieldNameHint")}
+            error={errors.fullName}
+          >
             {(props) => (
-              <Input {...props} autoComplete="name" maxLength={120} value={values.fullName} onChange={(e) => set("fullName")(e.target.value)} />
+              <Input
+                {...props}
+                autoComplete="name"
+                maxLength={120}
+                value={values.fullName}
+                onChange={(e) => set("fullName")(e.target.value)}
+              />
             )}
           </Field>
-          <Field name="phone" label={t("fieldPhone")} hint={t("fieldPhoneHint")} error={errors.phone}>
+          <Field
+            name="phone"
+            label={t("fieldPhone")}
+            hint={t("fieldPhoneHint")}
+            error={errors.phone}
+          >
             {(props) => (
               <Input
                 {...props}
@@ -125,7 +150,13 @@ function RequestPage() {
           <div className="grid gap-6 sm:grid-cols-[1fr_200px]">
             <Field name="city" label={t("fieldCity")} hint={t("fieldCityHint")} error={errors.city}>
               {(props) => (
-                <Input {...props} autoComplete="address-level2" maxLength={80} value={values.city} onChange={(e) => set("city")(e.target.value)} />
+                <Input
+                  {...props}
+                  autoComplete="address-level2"
+                  maxLength={80}
+                  value={values.city}
+                  onChange={(e) => set("city")(e.target.value)}
+                />
               )}
             </Field>
             <Field name="familyMembers" label={t("fieldFamily")} error={errors.familyMembers}>
@@ -145,7 +176,13 @@ function RequestPage() {
           <p className="-mt-3 text-xs text-muted-foreground">{t("fieldFamilyHint")}</p>
           <Field name="note" label={t("fieldNote")} hint={t("fieldNoteHint")} error={errors.note}>
             {(props) => (
-              <Textarea {...props} rows={3} maxLength={500} value={values.note} onChange={(e) => set("note")(e.target.value)} />
+              <Textarea
+                {...props}
+                rows={3}
+                maxLength={500}
+                value={values.note}
+                onChange={(e) => set("note")(e.target.value)}
+              />
             )}
           </Field>
 
@@ -153,7 +190,12 @@ function RequestPage() {
           <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
             <label>
               Website
-              <input tabIndex={-1} autoComplete="off" value={values.website} onChange={(e) => set("website")(e.target.value)} />
+              <input
+                tabIndex={-1}
+                autoComplete="off"
+                value={values.website}
+                onChange={(e) => set("website")(e.target.value)}
+              />
             </label>
           </div>
 
@@ -163,7 +205,10 @@ function RequestPage() {
               {t("privacyNoticeTitle")}
             </h2>
             <p className="text-muted-foreground">{t("privacyNoticeBody")}</p>
-            <Link to="/privacy" className="font-medium text-primary underline-offset-4 hover:underline">
+            <Link
+              to="/privacy"
+              className="font-medium text-primary underline-offset-4 hover:underline"
+            >
               {t("privacyNoticeLink")}
             </Link>
           </div>
@@ -190,7 +235,10 @@ function RequestPage() {
           </div>
 
           {formError && (
-            <p role="alert" className="rounded-xl border border-destructive/30 bg-status-rejected-soft p-3 text-sm text-destructive">
+            <p
+              role="alert"
+              className="rounded-xl border border-destructive/30 bg-status-rejected-soft p-3 text-sm text-destructive"
+            >
               {t(formError)}
             </p>
           )}
@@ -213,14 +261,19 @@ function Field({
 }: {
   name: FieldName;
   label: string;
-  hint?: string;
-  error?: DictKey;
-  children: (props: { id: string; "aria-invalid": boolean; "aria-describedby"?: string }) => ReactNode;
+  hint?: string | undefined;
+  error?: DictKey | undefined;
+  children: (props: {
+    id: string;
+    "aria-invalid": boolean;
+    "aria-describedby"?: string | undefined;
+  }) => ReactNode;
 }) {
   const { t } = useI18n();
   const hintId = useId();
   const errId = useId();
-  const describedBy = [hint ? hintId : null, error ? errId : null].filter(Boolean).join(" ") || undefined;
+  const describedBy =
+    [hint ? hintId : null, error ? errId : null].filter(Boolean).join(" ") || undefined;
   return (
     <div className="space-y-1.5">
       <Label htmlFor={`field-${name}`}>{label}</Label>
@@ -244,13 +297,18 @@ function SuccessPanel({ reference, onAnother }: { reference: string; onAnother: 
   const [copied, setCopied] = useState(false);
   return (
     <div className="mx-auto max-w-xl px-4 py-14">
-      <div role="status" className="rounded-3xl border border-border bg-card p-8 text-center shadow-lift">
+      <div
+        role="status"
+        className="rounded-3xl border border-border bg-card p-8 text-center shadow-lift"
+      >
         <CheckCircle2 className="mx-auto size-12 text-status-completed" aria-hidden="true" />
         <h1 className="mt-4 text-2xl font-semibold">{t("successTitle")}</h1>
         <p className="mt-2 text-muted-foreground">{t("successBody")}</p>
         <div className="mt-6 rounded-2xl bg-primary-soft p-5">
           <p className="text-sm text-primary">{t("successRefLabel")}</p>
-          <p className="ltr-nums mt-1 font-mono text-3xl font-semibold tracking-wider text-primary">{reference}</p>
+          <p className="ltr-nums mt-1 font-mono text-3xl font-semibold tracking-wider text-primary">
+            {reference}
+          </p>
           <Button
             variant="ghost"
             size="sm"

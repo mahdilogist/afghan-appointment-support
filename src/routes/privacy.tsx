@@ -10,10 +10,14 @@ export const Route = createFileRoute("/privacy")({
       { title: "حریم خصوصی · Privacy notice — Afghan Free Appointment" },
       {
         name: "description",
-        content: "What we collect, what we never collect, who can see requests, and how long they are kept.",
+        content:
+          "What we collect, what we never collect, who can see requests, and how long they are kept.",
       },
       { property: "og:title", content: "Privacy notice — Afghan Free Appointment" },
-      { property: "og:description", content: "Data minimization and least-privilege access by design." },
+      {
+        property: "og:description",
+        content: "Data minimization and least-privilege access by design.",
+      },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -46,7 +50,10 @@ function PrivacyPage() {
 
         <div className="mt-8 space-y-4">
           {sections.map((s) => (
-            <section key={s.title} className="flex gap-4 rounded-2xl border border-border bg-card p-5 shadow-soft">
+            <section
+              key={s.title}
+              className="flex gap-4 rounded-2xl border border-border bg-card p-5 shadow-soft"
+            >
               <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-secondary text-secondary-foreground">
                 <s.icon className="size-5" aria-hidden="true" />
               </span>

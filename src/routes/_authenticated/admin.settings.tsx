@@ -5,7 +5,13 @@ import { toast } from "sonner";
 
 import { SetupGuide } from "@/components/setup-guide";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { settingsQuery } from "@/lib/admin-queries";
@@ -42,7 +48,10 @@ function SettingsPage() {
       });
       if (error) throw error;
     },
-    onSuccess: () => { toast.success(t("settingsSaved")); qc.invalidateQueries({ queryKey: ["admin"] }); },
+    onSuccess: () => {
+      toast.success(t("settingsSaved"));
+      qc.invalidateQueries({ queryKey: ["admin"] });
+    },
     onError: (e) => toast.error(t(errorKeyFor(e))),
   });
 
@@ -60,7 +69,9 @@ function SettingsPage() {
         <h2 className="font-semibold">{t("settingsApprovalTitle")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{t("settingsApprovalBody")}</p>
         <Select value={policy} onValueChange={(v) => setPolicy(v as typeof policy)}>
-          <SelectTrigger className="mt-3 sm:w-80" aria-label={t("settingsApprovalTitle")}><SelectValue /></SelectTrigger>
+          <SelectTrigger className="mt-3 sm:w-80" aria-label={t("settingsApprovalTitle")}>
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="unset">{t("policyUnset")}</SelectItem>
             <SelectItem value="single_admin">{t("policySingle")}</SelectItem>
@@ -73,7 +84,9 @@ function SettingsPage() {
         <h2 className="font-semibold">{t("settingsQueueTitle")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{t("settingsQueueBody")}</p>
         <Select value={order} onValueChange={(v) => setOrder(v as QueueOrder)}>
-          <SelectTrigger className="mt-3 sm:w-80" aria-label={t("settingsQueueTitle")}><SelectValue /></SelectTrigger>
+          <SelectTrigger className="mt-3 sm:w-80" aria-label={t("settingsQueueTitle")}>
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="oldest_first">{t("sortOldest")}</SelectItem>
             <SelectItem value="newest_first">{t("sortNewest")}</SelectItem>
@@ -85,16 +98,22 @@ function SettingsPage() {
         <h2 className="font-semibold">{t("settingsRetentionTitle")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{t("settingsRetentionBody")}</p>
         <Select value={retention} onValueChange={setRetention}>
-          <SelectTrigger className="mt-3 sm:w-80" aria-label={t("settingsRetentionTitle")}><SelectValue /></SelectTrigger>
+          <SelectTrigger className="mt-3 sm:w-80" aria-label={t("settingsRetentionTitle")}>
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             {RETENTION_OPTIONS.map((o) => (
-              <SelectItem key={o} value={o}>{o === "unset" ? t("retentionUnset") : t("retentionDays", { days: Number(o) })}</SelectItem>
+              <SelectItem key={o} value={o}>
+                {o === "unset" ? t("retentionUnset") : t("retentionDays", { days: Number(o) })}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </section>
 
-      <Button variant="hero" size="lg" onClick={() => save.mutate()} disabled={save.isPending}>{t("settingsSave")}</Button>
+      <Button variant="hero" size="lg" onClick={() => save.mutate()} disabled={save.isPending}>
+        {t("settingsSave")}
+      </Button>
 
       <section className={card}>
         <h2 className="font-semibold">{t("settingsNotifyTitle")}</h2>
@@ -102,7 +121,9 @@ function SettingsPage() {
         <div className="mt-4 space-y-3">
           {(["notifyTelegram", "notifyEmail"] as const).map((k) => (
             <div key={k} className="flex items-center justify-between rounded-xl bg-muted/60 p-3">
-              <span className="text-sm">{t(k)} <span className="text-xs text-muted-foreground">· {t("notAvailable")}</span></span>
+              <span className="text-sm">
+                {t(k)} <span className="text-xs text-muted-foreground">· {t("notAvailable")}</span>
+              </span>
               <Switch checked={false} disabled aria-label={t(k)} />
             </div>
           ))}

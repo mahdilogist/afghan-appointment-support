@@ -5,7 +5,9 @@ import { normalizeDigits, requestSchema } from "./request-schema";
 
 describe("approval policy", () => {
   it("blocks approval while the policy is unset", () => {
-    expect(canApprove({ policy: null, status: "pending_review", approverIds: [], currentAdminId: "a" })).toEqual({
+    expect(
+      canApprove({ policy: null, status: "pending_review", approverIds: [], currentAdminId: "a" }),
+    ).toEqual({
       ok: false,
       reason: "policy_unset",
     });
@@ -17,7 +19,14 @@ describe("approval policy", () => {
   it("needs two different admins under two-person policy", () => {
     expect(statusAfterApproval("two_person", "pending_review", 1)).toBe("pending_review");
     expect(statusAfterApproval("two_person", "pending_review", 2)).toBe("approved");
-    expect(canApprove({ policy: "two_person", status: "pending_review", approverIds: ["a"], currentAdminId: "a" })).toEqual({
+    expect(
+      canApprove({
+        policy: "two_person",
+        status: "pending_review",
+        approverIds: ["a"],
+        currentAdminId: "a",
+      }),
+    ).toEqual({
       ok: false,
       reason: "already_approved_by_you",
     });
@@ -37,7 +46,13 @@ describe("status transitions", () => {
 });
 
 describe("request form validation", () => {
-  const base = { fullName: "Test Person", phone: "+93 700 000 101", city: "Kabul", familyMembers: 2, consent: true as const };
+  const base = {
+    fullName: "Test Person",
+    phone: "+93 700 000 101",
+    city: "Kabul",
+    familyMembers: 2,
+    consent: true as const,
+  };
   it("accepts Persian digits in phone numbers", () => {
     expect(normalizeDigits("۰۷۰۰")).toBe("0700");
     expect(requestSchema.safeParse({ ...base, phone: "+۹۳ ۷۰۰ ۰۰۰ ۱۰۱" }).success).toBe(true);

@@ -32,7 +32,9 @@ function AuditPage() {
         {audit.isPending ? (
           <p className="p-6 text-muted-foreground">{t("adminLoading")}</p>
         ) : audit.isError ? (
-          <p role="alert" className="p-6 text-destructive">{t("errGeneric")}</p>
+          <p role="alert" className="p-6 text-destructive">
+            {t("errGeneric")}
+          </p>
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-muted/60 text-xs text-muted-foreground">
@@ -46,15 +48,29 @@ function AuditPage() {
             <tbody>
               {audit.data.map((a) => (
                 <tr key={a.id} className="border-t border-border align-top">
-                  <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">{formatDate(a.created_at)}</td>
-                  <td className="px-4 py-3" dir="ltr">{a.actor_email === "demo-seed" ? t("auditSeed") : a.actor_email ?? t("auditSystem")}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">
+                    {formatDate(a.created_at)}
+                  </td>
+                  <td className="px-4 py-3" dir="ltr">
+                    {a.actor_email === "demo-seed"
+                      ? t("auditSeed")
+                      : (a.actor_email ?? t("auditSystem"))}
+                  </td>
                   <td className="px-4 py-3">
-                    <span className="font-medium">{t(LABEL[a.action] ?? "actionStatusChanged")}</span>
-                    {a.details && <span className="block text-xs text-muted-foreground">{a.details}</span>}
+                    <span className="font-medium">
+                      {t(LABEL[a.action] ?? "actionStatusChanged")}
+                    </span>
+                    {a.details && (
+                      <span className="block text-xs text-muted-foreground">{a.details}</span>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     {a.request_id && a.requests ? (
-                      <Link to="/admin/requests/$id" params={{ id: a.request_id }} className="ltr-nums font-mono text-xs text-primary hover:underline">
+                      <Link
+                        to="/admin/requests/$id"
+                        params={{ id: a.request_id }}
+                        className="ltr-nums font-mono text-xs text-primary hover:underline"
+                      >
                         {a.requests.reference_code}
                       </Link>
                     ) : (

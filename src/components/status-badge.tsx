@@ -22,7 +22,9 @@ const statusBadge = cva(
 
 export function StatusBadge({ status, className }: { status: RequestStatus; className?: string }) {
   const { t } = useI18n();
-  return <span className={cn(statusBadge({ status }), className)}>{t(STATUS_LABEL_KEY[status])}</span>;
+  return (
+    <span className={cn(statusBadge({ status }), className)}>{t(STATUS_LABEL_KEY[status])}</span>
+  );
 }
 
 export function TestDataTag() {

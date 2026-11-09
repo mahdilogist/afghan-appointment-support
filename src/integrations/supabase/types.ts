@@ -250,6 +250,14 @@ export type Database = {
           total: number
         }[]
       }
+      admin_status_counts_by_source: {
+        Args: never
+        Returns: {
+          is_test_data: boolean
+          status: Database["public"]["Enums"]["request_status"]
+          total: number
+        }[]
+      }
       admin_update_settings: {
         Args: {
           p_approval_policy: string
