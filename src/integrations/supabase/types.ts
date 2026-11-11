@@ -203,6 +203,24 @@ export type Database = {
         }
         Relationships: []
       }
+      submission_throttle: {
+        Row: {
+          client_hash: string
+          created_at: string
+          id: number
+        }
+        Insert: {
+          client_hash: string
+          created_at?: string
+          id?: never
+        }
+        Update: {
+          client_hash?: string
+          created_at?: string
+          id?: never
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -276,6 +294,7 @@ export type Database = {
       submit_request: {
         Args: {
           p_city: string
+          p_client_hash: string
           p_consent: boolean
           p_family_members: number
           p_full_name: string

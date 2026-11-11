@@ -18,6 +18,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
+import { Route as AuthenticatedAdminDeskRouteImport } from './routes/_authenticated/admin.desk'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminRequestsIdRouteImport } from './routes/_authenticated/admin.requests.$id'
 
@@ -65,6 +66,11 @@ const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminDeskRoute = AuthenticatedAdminDeskRouteImport.update({
+  id: '/desk',
+  path: '/desk',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminSettingsRoute =
   AuthenticatedAdminSettingsRouteImport.update({
     id: '/settings',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/desk': typeof AuthenticatedAdminDeskRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/requests/$id': typeof AuthenticatedAdminRequestsIdRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/request': typeof RequestRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/desk': typeof AuthenticatedAdminDeskRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/requests/$id': typeof AuthenticatedAdminRequestsIdRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/_authenticated/admin/desk': typeof AuthenticatedAdminDeskRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/requests/$id': typeof AuthenticatedAdminRequestsIdRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/admin'
     | '/admin/audit'
+    | '/admin/desk'
     | '/admin/settings'
     | '/admin/'
     | '/admin/requests/$id'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/request'
     | '/reset-password'
     | '/admin/audit'
+    | '/admin/desk'
     | '/admin/settings'
     | '/admin'
     | '/admin/requests/$id'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/admin'
     | '/_authenticated/admin/audit'
+    | '/_authenticated/admin/desk'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/requests/$id'
@@ -228,6 +240,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/desk': {
+      id: '/_authenticated/admin/desk'
+      path: '/desk'
+      fullPath: '/admin/desk'
+      preLoaderRoute: typeof AuthenticatedAdminDeskRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/settings': {
       id: '/_authenticated/admin/settings'
       path: '/settings'
@@ -247,6 +266,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
+  AuthenticatedAdminDeskRoute: typeof AuthenticatedAdminDeskRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminRequestsIdRoute: typeof AuthenticatedAdminRequestsIdRoute
@@ -254,6 +274,7 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
+  AuthenticatedAdminDeskRoute: AuthenticatedAdminDeskRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminRequestsIdRoute: AuthenticatedAdminRequestsIdRoute,

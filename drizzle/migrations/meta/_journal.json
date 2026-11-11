@@ -15,6 +15,13 @@
       "when": 1794237379234,
       "tag": "0001_harden_grants_and_separate_demo_data",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794392102489,
+      "tag": "0002_server_only_submission_and_throttle",
+      "breakpoints": true
     }
   ]
 }

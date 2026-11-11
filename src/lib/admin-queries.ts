@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import {
   sanitizeSearch,
   type ApprovalPolicy,
@@ -99,6 +100,42 @@ export function requestListQuery(filters: QueueFilters) {
     },
   });
 }
+
+/** Approved and In Progress requests for the Rapid Registration Desk, in the configured order. */
+export function deskQueueQuery(filters: { order: QueueOrder; source: RecordSource }) {
+  return queryOptions({
+    queryKey: ["admin", "desk", filters],
+    queryFn: async () => {
+      let q = supabase
+        .from("requests")
+        .select(
+          "id, reference_code, full_name, phone, city, family_members, note, consent_given, status, is_test_data, created_at",
+        )
+        .in("status", ["approved", "in_progress"])
+        .order("created_at", { ascending: filters.order === "oldest_first" })
+        .limit(200);
+      if (filters.source !== "all") q = q.eq("is_test_data", filters.source === "demo");
+      const { data, error } = await q;
+      if (error) throw new Error("desk_failed");
+      return data as DeskRequest[];
+    },
+  });
+}
+
+export type DeskRequest = Pick<
+  Database["public"]["Tables"]["requests"]["Row"],
+  | "id"
+  | "reference_code"
+  | "full_name"
+  | "phone"
+  | "city"
+  | "family_members"
+  | "note"
+  | "consent_given"
+  | "status"
+  | "is_test_data"
+  | "created_at"
+>;
 
 export function requestDetailQuery(id: string) {
   return queryOptions({

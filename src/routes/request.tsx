@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { CheckCircle2, Copy, ShieldAlert, UserRound } from "lucide-react";
+import { Check, CheckCircle2, Copy, ShieldAlert, UserRound } from "lucide-react";
 import { useId, useState, type FormEvent, type ReactNode } from "react";
 
 import { PublicShell } from "@/components/public-shell";
@@ -80,8 +80,9 @@ function RequestPage() {
       setValues(EMPTY);
       setConsent(false);
       window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch {
-      setFormError("errSubmitFailed");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "";
+      setFormError(message.includes("rate_limited") ? "errRateLimited" : "errSubmitFailed");
     } finally {
       setPending(false);
     }
@@ -294,7 +295,7 @@ function Field({
 
 function SuccessPanel({ reference, onAnother }: { reference: string; onAnother: () => void }) {
   const { t } = useI18n();
-  const [copied, setCopied] = useState(false);
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   return (
     <div className="mx-auto max-w-xl px-4 py-14">
       <div
@@ -314,13 +315,20 @@ function SuccessPanel({ reference, onAnother }: { reference: string; onAnother: 
             size="sm"
             className="mt-2"
             onClick={async () => {
-              await navigator.clipboard?.writeText(reference);
-              setCopied(true);
+              try {
+                await navigator.clipboard.writeText(reference);
+                setCopyState("copied");
+              } catch {
+                setCopyState("failed");
+              }
             }}
           >
-            <Copy aria-hidden="true" />
-            {copied ? "✓" : "Copy"}
+            {copyState === "copied" ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
+            {copyState === "copied" ? t("copied") : t("copy")}
           </Button>
+          <p aria-live="polite" className="mt-1 min-h-5 text-xs text-primary">
+            {copyState === "failed" ? t("copyFailed") : ""}
+          </p>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">{t("successRefHint")}</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">

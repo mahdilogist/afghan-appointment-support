@@ -1,7 +1,15 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { ClipboardList, History, LogOut, Settings2, ShieldCheck, ShieldOff } from "lucide-react";
+import {
+  ClipboardCheck,
+  ClipboardList,
+  History,
+  LogOut,
+  Settings2,
+  ShieldCheck,
+  ShieldOff,
+} from "lucide-react";
 import { useState } from "react";
 
 import { SetupGuide } from "@/components/setup-guide";
@@ -68,6 +76,14 @@ function AdminLayout() {
               >
                 <ClipboardList className="size-4" aria-hidden="true" />
                 {t("adminDashboard")}
+              </Link>
+              <Link
+                to="/admin/desk"
+                className={navItem}
+                activeProps={{ className: "bg-primary-soft text-primary font-medium" }}
+              >
+                <ClipboardCheck className="size-4" aria-hidden="true" />
+                {t("adminDesk")}
               </Link>
               <Link
                 to="/admin/audit"

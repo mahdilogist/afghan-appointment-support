@@ -1,14 +1,16 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
+import { getRequestHeader } from "@tanstack/react-start/server";
 
-import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { requestSchema } from "./request-schema";
+import { clientAddressFrom, throttleHash } from "./submission.server";
 
 /**
  * Public: creates one request in Pending Review and returns only its reference code.
- * Uses the publishable key + an insert-only database function, so the caller can never
- * read or change any stored request. Errors are generic on purpose (no personal data).
+ * Validation (including the honeypot) runs here, then the request is written through a
+ * database function that only the server's service role may call. The database repeats
+ * the validation and applies a privacy-preserving throttle. Errors are generic on purpose:
+ * no submitted values are ever logged or returned.
  */
 export const submitRequest = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
@@ -17,25 +19,17 @@ export const submitRequest = createServerFn({ method: "POST" })
     return parsed.data;
   })
   .handler(async ({ data }) => {
-    const url = process.env["SUPABASE_URL"];
-    const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
-    if (!url || !key) throw new Error("submit_failed");
+    const serviceKey = process.env["SUPABASE_SERVICE_ROLE_KEY"];
+    if (!serviceKey || !process.env["SUPABASE_URL"]) {
+      console.error("submit_request unavailable: server is missing its backend credentials");
+      throw new Error("submit_failed");
+    }
 
-    const client = createClient<Database>(url, key, {
-      auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
-      global: {
-        fetch: (input, init) => {
-          const headers = new Headers(init?.headers);
-          if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) {
-            headers.delete("Authorization");
-          }
-          headers.set("apikey", key);
-          return fetch(input, { ...init, headers });
-        },
-      },
-    });
+    const address = clientAddressFrom((name) => getRequestHeader(name as never));
+    const clientHash = await throttleHash(address, serviceKey);
 
-    const { data: reference, error } = await client.rpc("submit_request", {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: reference, error } = await supabaseAdmin.rpc("submit_request", {
       p_full_name: data.fullName,
       p_phone: data.phone,
       p_city: data.city,
@@ -43,9 +37,11 @@ export const submitRequest = createServerFn({ method: "POST" })
       p_note: data.note,
       p_consent: data.consent,
       p_language: data.language,
+      p_client_hash: clientHash,
     });
 
     if (error || !reference) {
+      if (error?.message?.includes("rate_limited")) throw new Error("rate_limited");
       // Log only the error code — never the submitted values.
       console.error("submit_request failed", error?.code ?? "unknown");
       throw new Error("submit_failed");
